@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentManagerActor", "E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExperimentManagerActor.Interfaces", "ExperimentManagerActor.Interfaces\ExperimentManagerActor.Interfaces.csproj", "{D5391C53-54A0-4CA2-8E3B-2F96F0758A34}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Actors", "Actors", "{A0279449-B733-46BE-B12D-B784BB952429}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{9C3F5E9F-B079-472D-BB3D-363B8F0819E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -32,5 +36,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{940C2AAE-2792-47CB-9F4E-532997B2FBF1} = {A0279449-B733-46BE-B12D-B784BB952429}
+		{D5391C53-54A0-4CA2-8E3B-2F96F0758A34} = {A0279449-B733-46BE-B12D-B784BB952429}
 	EndGlobalSection
 EndGlobal
