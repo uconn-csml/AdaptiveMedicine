@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("ExperimentManagerActor.Interfaces")]
+[assembly: AssemblyTitle("PerformanceManagerActor")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ExperimentManagerActor.Interfaces")]
+[assembly: AssemblyProduct("PerformanceManagerActor")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("d5391c53-54a0-4ca2-8e3b-2f96f0758a34")]
+[assembly: Guid("179afc46-32f2-4593-b7f2-c6d8502b1f34")]
 
 // Version information for an assembly consists of the following four values:
 //

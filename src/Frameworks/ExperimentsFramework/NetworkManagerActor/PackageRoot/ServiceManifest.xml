@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="NetworkManagerActorPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <ServiceTypes>
+    <StatefulServiceType ServiceTypeName="NetworkManagerActorServiceType" HasPersistedState="true">
+      <Extensions>
+        <Extension Name="__GeneratedServiceType__" GeneratedId="0c434307-d983-4610-b92a-6337e0b4f212|Persisted">
+          <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
+            <DefaultService Name="NetworkManagerActorService" />
+            <ServiceEndpoint Name="NetworkManagerActorServiceEndpoint" />
+            <ReplicatorEndpoint Name="NetworkManagerActorServiceReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="NetworkManagerActorServiceReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="NetworkManagerActorServiceReplicatorSecurityConfig" />
+            <StoreConfigSection Name="NetworkManagerActorServiceLocalStoreConfig" />
+          </GeneratedNames>
+        </Extension>
+      </Extensions>
+    </StatefulServiceType>
+  </ServiceTypes>
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <ExeHost>
+        <Program>NetworkManagerActor.exe</Program>
+      </ExeHost>
+    </EntryPoint>
+  </CodePackage>
+  <ConfigPackage Name="Config" Version="1.0.0" />
+  <Resources>
+    <Endpoints>
+      <Endpoint Name="NetworkManagerActorServiceEndpoint" />
+      <Endpoint Name="NetworkManagerActorServiceReplicatorEndpoint" />
+    </Endpoints>
+  </Resources>
+  <!-- The content will be generated during build -->
+</ServiceManifest>

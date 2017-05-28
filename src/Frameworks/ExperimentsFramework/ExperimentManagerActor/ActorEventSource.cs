@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.Tracing;
-using System.Fabric;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace ExperimentManagerActor {
+namespace AdaptiveMedicine.Actors.ExperimentManager {
    [EventSource(Name = "MyCompany-ExperimentsApplication-ExperimentManagerActor")]
    internal sealed class ActorEventSource: EventSource {
       public static readonly ActorEventSource Current = new ActorEventSource();
