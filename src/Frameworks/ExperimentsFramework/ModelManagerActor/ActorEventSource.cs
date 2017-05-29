@@ -3,7 +3,7 @@ using System.Diagnostics.Tracing;
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace AdaptiveMedicine.Actors.ModelManager {
+namespace AdaptiveMedicine.Experiments.Actors {
    [EventSource(Name = "MyCompany-ExperimentsApplication-ModelManagerActor")]
    internal sealed class ActorEventSource: EventSource {
       public static readonly ActorEventSource Current = new ActorEventSource();

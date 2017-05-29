@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart.Interfaces {
+namespace AdaptiveMedicine.Common.Statechart.Interfaces {
    public interface IEvent {
       DateTime Id { get; }
       string Type { get; }

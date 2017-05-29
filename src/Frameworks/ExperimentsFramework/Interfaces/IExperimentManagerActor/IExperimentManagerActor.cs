@@ -2,8 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors;
 
-namespace AdaptiveMedicine.Actors.Interfaces.ExperimentManager {
+namespace AdaptiveMedicine.Experiments.Actors.Interfaces {
    public interface IExperimentManagerActor: IActor {
-      Task<bool> CreateExperiment(DateTime timeStamp, object parameters);
+      Task<bool> Create(DateTime timeStamp, object parameters);
+      Task<bool> AddPatient(DateTime timeStamp, object parameters);
    }
 }

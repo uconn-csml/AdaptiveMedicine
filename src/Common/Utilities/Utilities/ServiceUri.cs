@@ -2,7 +2,7 @@
 using System.Fabric;
 using System.Runtime.CompilerServices;
 
-namespace Common.ServiceUri {
+namespace AdaptiveMedicine.Common.Utilities {
    public static class ServiceUri {
 
       [MethodImpl(MethodImplOptions.AggressiveInlining)]

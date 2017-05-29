@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="PerformanceManagerActorPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <ServiceTypes>
-    <StatefulServiceType ServiceTypeName="PerformanceManagerActorServiceType" HasPersistedState="true">
+    <StatefulServiceType ServiceTypeName="PerformanceManagerActorType" HasPersistedState="true">
       <Extensions>
-        <Extension Name="__GeneratedServiceType__" GeneratedId="9bc7506a-8b02-4e6b-a2bb-ae50e0d38efa|Persisted">
+        <Extension Name="__GeneratedServiceType__" GeneratedId="9a3802b8-2115-479c-8b48-2b13edd32fb0|Persisted">
           <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
-            <DefaultService Name="PerformanceManagerActorService" />
-            <ServiceEndpoint Name="PerformanceManagerActorServiceEndpoint" />
-            <ReplicatorEndpoint Name="PerformanceManagerActorServiceReplicatorEndpoint" />
-            <ReplicatorConfigSection Name="PerformanceManagerActorServiceReplicatorConfig" />
-            <ReplicatorSecurityConfigSection Name="PerformanceManagerActorServiceReplicatorSecurityConfig" />
-            <StoreConfigSection Name="PerformanceManagerActorServiceLocalStoreConfig" />
+            <DefaultService Name="PerformanceManagerActor" />
+            <ServiceEndpoint Name="PerformanceManagerActorEndpoint" />
+            <ReplicatorEndpoint Name="PerformanceManagerActorReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="PerformanceManagerActorReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="PerformanceManagerActorReplicatorSecurityConfig" />
+            <StoreConfigSection Name="PerformanceManagerActorLocalStoreConfig" />
           </GeneratedNames>
         </Extension>
       </Extensions>
@@ -26,8 +26,8 @@
   <ConfigPackage Name="Config" Version="1.0.0" />
   <Resources>
     <Endpoints>
-      <Endpoint Name="PerformanceManagerActorServiceEndpoint" />
-      <Endpoint Name="PerformanceManagerActorServiceReplicatorEndpoint" />
+      <Endpoint Name="PerformanceManagerActorEndpoint" />
+      <Endpoint Name="PerformanceManagerActorReplicatorEndpoint" />
     </Endpoints>
   </Resources>
   <!-- The content will be generated during build -->

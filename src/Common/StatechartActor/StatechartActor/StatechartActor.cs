@@ -5,12 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
-using AdaptiveMedicine.Actors.Base.Statechart.Attributes;
-using AdaptiveMedicine.Actors.Base.Statechart.Interfaces;
+using AdaptiveMedicine.Common.Statechart.Attributes;
+using AdaptiveMedicine.Common.Statechart.Interfaces;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart {
+namespace AdaptiveMedicine.Common.Actors {
    public abstract class StatechartActor: Actor, IStatechart {
       public const string CurrentStateLabel = "Statechart.CurrentState";
       public const string PastEventsLabel = "Statechart.PastEvents";
@@ -47,13 +47,17 @@ namespace AdaptiveMedicine.Actors.Base.Statechart {
 
                   var stateAttributes = potentialState.GetCustomAttributes<StateAttribute>();
                   foreach (var stateAttribute in stateAttributes) {
-                     statesList[stateAttribute.Type] = (IState) potentialState.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                     if (!String.IsNullOrWhiteSpace(stateAttribute.Type)) {
+                        statesList[stateAttribute.Type] = (IState)potentialState.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                     }
                   }
 
                   var initialStateAttributes = potentialState.GetCustomAttributes<InitialStateAttribute>();
                   if (initialStateAttributes.Count() == 1) {
                      initialState = initialStateAttributes.First().Type;
-                     statesList[initialState] = (IState) potentialState.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                     if (!String.IsNullOrWhiteSpace(initialState)) {
+                        statesList[initialState] = (IState)potentialState.GetProperty("Instance", BindingFlags.Public | BindingFlags.Static).GetValue(null);
+                     }
                   }
 
                }

@@ -1,7 +1,7 @@
 ﻿using System;
-using AdaptiveMedicine.Actors.Base.Statechart.Interfaces;
+using AdaptiveMedicine.Common.Statechart.Interfaces;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart {
+namespace AdaptiveMedicine.Common.Actors {
    public class StatechartEvent: IEvent {
       public DateTime Id { get; }
       public string Type { get; }

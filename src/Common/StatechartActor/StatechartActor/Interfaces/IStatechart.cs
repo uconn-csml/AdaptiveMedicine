@@ -1,6 +1,6 @@
 ﻿using Microsoft.ServiceFabric.Actors;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart.Interfaces {
+namespace AdaptiveMedicine.Common.Statechart.Interfaces {
    public interface IStatechart: IActor {
    }
 }

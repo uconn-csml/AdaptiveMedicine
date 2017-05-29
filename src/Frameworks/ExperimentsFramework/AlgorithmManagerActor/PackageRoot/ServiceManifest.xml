@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="AlgorithmManagerActorPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <ServiceTypes>
-    <StatefulServiceType ServiceTypeName="AlgorithmManagerActorServiceType" HasPersistedState="true">
+    <StatefulServiceType ServiceTypeName="AlgorithmManagerActorType" HasPersistedState="true">
       <Extensions>
-        <Extension Name="__GeneratedServiceType__" GeneratedId="655d6a9a-c482-4ecc-9126-f202079bd395|Persisted">
+        <Extension Name="__GeneratedServiceType__" GeneratedId="392073a3-814f-41ad-b018-0cce71cdac11|Persisted">
           <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
-            <DefaultService Name="AlgorithmManagerActorService" />
-            <ServiceEndpoint Name="AlgorithmManagerActorServiceEndpoint" />
-            <ReplicatorEndpoint Name="AlgorithmManagerActorServiceReplicatorEndpoint" />
-            <ReplicatorConfigSection Name="AlgorithmManagerActorServiceReplicatorConfig" />
-            <ReplicatorSecurityConfigSection Name="AlgorithmManagerActorServiceReplicatorSecurityConfig" />
-            <StoreConfigSection Name="AlgorithmManagerActorServiceLocalStoreConfig" />
+            <DefaultService Name="AlgorithmManagerActor" />
+            <ServiceEndpoint Name="AlgorithmManagerActorEndpoint" />
+            <ReplicatorEndpoint Name="AlgorithmManagerActorReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="AlgorithmManagerActorReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="AlgorithmManagerActorReplicatorSecurityConfig" />
+            <StoreConfigSection Name="AlgorithmManagerActorLocalStoreConfig" />
           </GeneratedNames>
         </Extension>
       </Extensions>
@@ -26,8 +26,8 @@
   <ConfigPackage Name="Config" Version="1.0.0" />
   <Resources>
     <Endpoints>
-      <Endpoint Name="AlgorithmManagerActorServiceEndpoint" />
-      <Endpoint Name="AlgorithmManagerActorServiceReplicatorEndpoint" />
+      <Endpoint Name="AlgorithmManagerActorEndpoint" />
+      <Endpoint Name="AlgorithmManagerActorReplicatorEndpoint" />
     </Endpoints>
   </Resources>
   <!-- The content will be generated during build -->

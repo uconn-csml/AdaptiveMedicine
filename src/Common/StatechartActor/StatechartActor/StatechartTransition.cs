@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
-using AdaptiveMedicine.Actors.Base.Statechart.Attributes;
-using AdaptiveMedicine.Actors.Base.Statechart.Interfaces;
+using AdaptiveMedicine.Common.Statechart.Attributes;
+using AdaptiveMedicine.Common.Statechart.Interfaces;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart {
+namespace AdaptiveMedicine.Common.Actors {
    public class StatechartTransition: ITransition {
       private TransitionAttribute _Transition { get; }
 

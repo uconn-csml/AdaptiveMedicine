@@ -1,25 +1,30 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ExperimentsApplicationType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="AlgorithmManagerActorService_PartitionCount" DefaultValue="10" />
-    <Parameter Name="AlgorithmManagerActorService_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="AlgorithmManagerActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="ExperimentsAPI_InstanceCount" DefaultValue="-1" />
     <Parameter Name="ExperimentManagerActor_PartitionCount" DefaultValue="10" />
     <Parameter Name="ExperimentManagerActor_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ExperimentManagerActor_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="ModelManagerActorService_PartitionCount" DefaultValue="10" />
-    <Parameter Name="ModelManagerActorService_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="ModelManagerActorService_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="NetworkManagerActorService_PartitionCount" DefaultValue="10" />
-    <Parameter Name="NetworkManagerActorService_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="NetworkManagerActorService_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="PerformanceManagerActorService_PartitionCount" DefaultValue="10" />
-    <Parameter Name="PerformanceManagerActorService_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="PerformanceManagerActorService_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="AlgorithmManagerActor_PartitionCount" DefaultValue="10" />
+    <Parameter Name="AlgorithmManagerActor_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="AlgorithmManagerActor_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="ModelManagerActor_PartitionCount" DefaultValue="10" />
+    <Parameter Name="ModelManagerActor_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="ModelManagerActor_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="NetworkManagerActor_PartitionCount" DefaultValue="10" />
+    <Parameter Name="NetworkManagerActor_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="NetworkManagerActor_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="PerformanceManagerActor_PartitionCount" DefaultValue="10" />
+    <Parameter Name="PerformanceManagerActor_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="PerformanceManagerActor_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ExperimentsAPIPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="AlgorithmManagerActorPkg" ServiceManifestVersion="1.0.0" />
   </ServiceManifestImport>
@@ -36,29 +41,34 @@
     <ServiceManifestRef ServiceManifestName="ExperimentManagerActorPkg" ServiceManifestVersion="1.0.0" />
   </ServiceManifestImport>
   <DefaultServices>
-    <Service Name="AlgorithmManagerActorService" GeneratedIdRef="655d6a9a-c482-4ecc-9126-f202079bd395|Persisted">
-      <StatefulService ServiceTypeName="AlgorithmManagerActorServiceType" TargetReplicaSetSize="[AlgorithmManagerActorService_TargetReplicaSetSize]" MinReplicaSetSize="[AlgorithmManagerActorService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[AlgorithmManagerActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-      </StatefulService>
+    <Service Name="ExperimentsAPI">
+      <StatelessService ServiceTypeName="ExperimentsAPIType" InstanceCount="[ExperimentsAPI_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
     </Service>
     <Service Name="ExperimentManagerActor" GeneratedIdRef="906c44c6-5069-4471-a106-9a5c83731141|Persisted">
       <StatefulService ServiceTypeName="ExperimentManagerActorType" TargetReplicaSetSize="[ExperimentManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[ExperimentManagerActor_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[ExperimentManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
-    <Service Name="ModelManagerActorService" GeneratedIdRef="f3af1162-0187-44e7-bf6e-8297e369168e|Persisted">
-      <StatefulService ServiceTypeName="ModelManagerActorServiceType" TargetReplicaSetSize="[ModelManagerActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ModelManagerActorService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[ModelManagerActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+    <Service Name="AlgorithmManagerActor" GeneratedIdRef="392073a3-814f-41ad-b018-0cce71cdac11|Persisted">
+      <StatefulService ServiceTypeName="AlgorithmManagerActorType" TargetReplicaSetSize="[AlgorithmManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[AlgorithmManagerActor_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[AlgorithmManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
-    <Service Name="NetworkManagerActorService" GeneratedIdRef="0c434307-d983-4610-b92a-6337e0b4f212|Persisted">
-      <StatefulService ServiceTypeName="NetworkManagerActorServiceType" TargetReplicaSetSize="[NetworkManagerActorService_TargetReplicaSetSize]" MinReplicaSetSize="[NetworkManagerActorService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[NetworkManagerActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+    <Service Name="ModelManagerActor" GeneratedIdRef="6707922b-1b41-4b6c-a1d3-792002a3b10e|Persisted">
+      <StatefulService ServiceTypeName="ModelManagerActorType" TargetReplicaSetSize="[ModelManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[ModelManagerActor_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[ModelManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
-    <Service Name="PerformanceManagerActorService" GeneratedIdRef="9bc7506a-8b02-4e6b-a2bb-ae50e0d38efa|Persisted">
-      <StatefulService ServiceTypeName="PerformanceManagerActorServiceType" TargetReplicaSetSize="[PerformanceManagerActorService_TargetReplicaSetSize]" MinReplicaSetSize="[PerformanceManagerActorService_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[PerformanceManagerActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+    <Service Name="NetworkManagerActor" GeneratedIdRef="93a285cb-6ed3-46db-accc-6ca6b7da544a|Persisted">
+      <StatefulService ServiceTypeName="NetworkManagerActorType" TargetReplicaSetSize="[NetworkManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[NetworkManagerActor_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[NetworkManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="PerformanceManagerActor" GeneratedIdRef="9a3802b8-2115-479c-8b48-2b13edd32fb0|Persisted">
+      <StatefulService ServiceTypeName="PerformanceManagerActorType" TargetReplicaSetSize="[PerformanceManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[PerformanceManagerActor_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[PerformanceManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
     <!-- The section below creates instances of service types, when an instance of this 

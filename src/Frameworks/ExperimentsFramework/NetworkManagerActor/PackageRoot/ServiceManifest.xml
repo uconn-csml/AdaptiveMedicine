@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="NetworkManagerActorPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <ServiceTypes>
-    <StatefulServiceType ServiceTypeName="NetworkManagerActorServiceType" HasPersistedState="true">
+    <StatefulServiceType ServiceTypeName="NetworkManagerActorType" HasPersistedState="true">
       <Extensions>
-        <Extension Name="__GeneratedServiceType__" GeneratedId="0c434307-d983-4610-b92a-6337e0b4f212|Persisted">
+        <Extension Name="__GeneratedServiceType__" GeneratedId="93a285cb-6ed3-46db-accc-6ca6b7da544a|Persisted">
           <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
-            <DefaultService Name="NetworkManagerActorService" />
-            <ServiceEndpoint Name="NetworkManagerActorServiceEndpoint" />
-            <ReplicatorEndpoint Name="NetworkManagerActorServiceReplicatorEndpoint" />
-            <ReplicatorConfigSection Name="NetworkManagerActorServiceReplicatorConfig" />
-            <ReplicatorSecurityConfigSection Name="NetworkManagerActorServiceReplicatorSecurityConfig" />
-            <StoreConfigSection Name="NetworkManagerActorServiceLocalStoreConfig" />
+            <DefaultService Name="NetworkManagerActor" />
+            <ServiceEndpoint Name="NetworkManagerActorEndpoint" />
+            <ReplicatorEndpoint Name="NetworkManagerActorReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="NetworkManagerActorReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="NetworkManagerActorReplicatorSecurityConfig" />
+            <StoreConfigSection Name="NetworkManagerActorLocalStoreConfig" />
           </GeneratedNames>
         </Extension>
       </Extensions>
@@ -26,8 +26,8 @@
   <ConfigPackage Name="Config" Version="1.0.0" />
   <Resources>
     <Endpoints>
-      <Endpoint Name="NetworkManagerActorServiceEndpoint" />
-      <Endpoint Name="NetworkManagerActorServiceReplicatorEndpoint" />
+      <Endpoint Name="NetworkManagerActorEndpoint" />
+      <Endpoint Name="NetworkManagerActorReplicatorEndpoint" />
     </Endpoints>
   </Resources>
   <!-- The content will be generated during build -->

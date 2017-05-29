@@ -2,7 +2,7 @@
 using System.Threading;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace AdaptiveMedicine.Actors.ExperimentManager {
+namespace AdaptiveMedicine.Experiments.Actors {
    internal static class Program {
       private static void Main() {
          try {

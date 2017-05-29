@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart.Interfaces {
+namespace AdaptiveMedicine.Common.Statechart.Interfaces {
    public interface IState {
       string Type { get; }
       Task<bool> EntryActionAsync(Actor actor);

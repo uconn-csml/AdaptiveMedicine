@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using AdaptiveMedicine.Actors.Base.Statechart.Attributes;
-using AdaptiveMedicine.Actors.Base.Statechart.Interfaces;
+using AdaptiveMedicine.Common.Statechart.Attributes;
+using AdaptiveMedicine.Common.Statechart.Interfaces;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart {
+namespace AdaptiveMedicine.Common.Actors {
    public abstract class StatechartState: IState {
       private IReadOnlyList<ITransition> _Transitions { get; }
       public string Type { get; }

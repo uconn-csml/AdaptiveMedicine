@@ -1,16 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="ModelManagerActorPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <ServiceTypes>
-    <StatefulServiceType ServiceTypeName="ModelManagerActorServiceType" HasPersistedState="true">
+    <StatefulServiceType ServiceTypeName="ModelManagerActorType" HasPersistedState="true">
       <Extensions>
-        <Extension Name="__GeneratedServiceType__" GeneratedId="f3af1162-0187-44e7-bf6e-8297e369168e|Persisted">
+        <Extension Name="__GeneratedServiceType__" GeneratedId="6707922b-1b41-4b6c-a1d3-792002a3b10e|Persisted">
           <GeneratedNames xmlns="http://schemas.microsoft.com/2015/03/fabact-no-schema">
-            <DefaultService Name="ModelManagerActorService" />
-            <ServiceEndpoint Name="ModelManagerActorServiceEndpoint" />
-            <ReplicatorEndpoint Name="ModelManagerActorServiceReplicatorEndpoint" />
-            <ReplicatorConfigSection Name="ModelManagerActorServiceReplicatorConfig" />
-            <ReplicatorSecurityConfigSection Name="ModelManagerActorServiceReplicatorSecurityConfig" />
-            <StoreConfigSection Name="ModelManagerActorServiceLocalStoreConfig" />
+            <DefaultService Name="ModelManagerActor" />
+            <ServiceEndpoint Name="ModelManagerActorEndpoint" />
+            <ReplicatorEndpoint Name="ModelManagerActorReplicatorEndpoint" />
+            <ReplicatorConfigSection Name="ModelManagerActorReplicatorConfig" />
+            <ReplicatorSecurityConfigSection Name="ModelManagerActorReplicatorSecurityConfig" />
+            <StoreConfigSection Name="ModelManagerActorLocalStoreConfig" />
           </GeneratedNames>
         </Extension>
       </Extensions>
@@ -26,8 +26,8 @@
   <ConfigPackage Name="Config" Version="1.0.0" />
   <Resources>
     <Endpoints>
-      <Endpoint Name="ModelManagerActorServiceEndpoint" />
-      <Endpoint Name="ModelManagerActorServiceReplicatorEndpoint" />
+      <Endpoint Name="ModelManagerActorEndpoint" />
+      <Endpoint Name="ModelManagerActorReplicatorEndpoint" />
     </Endpoints>
   </Resources>
   <!-- The content will be generated during build -->

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Runtime.CompilerServices;
 
-namespace Common.TaskManagement {
+namespace AdaptiveMedicine.Common.Utilities {
    public static class TaskManagement {
 
       [MethodImpl(MethodImplOptions.AggressiveInlining)]

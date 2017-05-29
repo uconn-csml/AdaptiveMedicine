@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AdaptiveMedicine.Actors.Base.Statechart;
-using AdaptiveMedicine.Actors.Base.Statechart.Attributes;
-using AdaptiveMedicine.Actors.Base.Statechart.Interfaces;
-using AdaptiveMedicine.Actors.Interfaces.AlgorithmManager;
-using AdaptiveMedicine.Actors.Interfaces.ExperimentManager;
-using AdaptiveMedicine.Actors.Interfaces.ModelManager;
-using AdaptiveMedicine.Actors.Interfaces.NetworkManager;
-using AdaptiveMedicine.Actors.Interfaces.PerformanceManager;
-using Common.ServiceUri;
+using AdaptiveMedicine.Common.Actors;
+using AdaptiveMedicine.Common.Statechart.Attributes;
+using AdaptiveMedicine.Common.Statechart.Interfaces;
+using AdaptiveMedicine.Common.Utilities;
+using AdaptiveMedicine.Experiments.Actors.Interfaces;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
-namespace AdaptiveMedicine.Actors.ExperimentManager {
-   [ActorService(Name = Interfaces.ExperimentManager.ServiceNames.ExperimentManagerActor)]
+namespace AdaptiveMedicine.Experiments.Actors {
+   [ActorService(Name = Experiments.ExperimentManagerActor.ServiceName)]
    [StatePersistence(StatePersistence.Persisted)]
    internal class ExperimentManagerActor: StatechartActor, IExperimentManagerActor {
       public const string ParametersLabel = "Experiment.Parameters";
@@ -29,8 +25,13 @@ namespace AdaptiveMedicine.Actors.ExperimentManager {
          return Task.FromResult(true);
       }
 
-      async Task<bool> IExperimentManagerActor.CreateExperiment(DateTime timeStamp, object parameters) {
+      async Task<bool> IExperimentManagerActor.Create(DateTime timeStamp, object parameters) {
          await DispatchEventAsync(new StatechartEvent(Events.Initialize, timeStamp, parameters));
+         return true;
+      }
+
+      async Task<bool> IExperimentManagerActor.AddPatient(DateTime timeStamp, object parameters) {
+         await DispatchEventAsync(new StatechartEvent(Events.AddPatient, timeStamp, parameters));
          return true;
       }
 
@@ -44,7 +45,7 @@ namespace AdaptiveMedicine.Actors.ExperimentManager {
          #region Singleton Pattern
          private static readonly Lazy<Uninitialized> _Lazy = new Lazy<Uninitialized>(() => new Uninitialized());
          public static Uninitialized Instance { get { return _Lazy.Value; } }
-         private Uninitialized() { }
+         private Uninitialized() : base() { }
          #endregion
 
          [Transition(Events.Initialize, States.Initialized)]
@@ -54,7 +55,7 @@ namespace AdaptiveMedicine.Actors.ExperimentManager {
             await actor.StateManager.SetStateAsync<object>(ParametersLabel, parameters);
 
             // Set up the parameters for the algorithm manager.
-            await ActorProxy.Create<IAlgorithmManagerActor>(actor.Id, Interfaces.AlgorithmManager.ServiceNames.AlgorithmManagerActor.ToServiceUri()).ConfigureModelsAsync();
+            await ActorProxy.Create<IAlgorithmManagerActor>(actor.Id, Experiments.AlgorithmManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync();
             return null;
          }
 
@@ -81,7 +82,7 @@ namespace AdaptiveMedicine.Actors.ExperimentManager {
             await actor.StateManager.SetStateAsync<object>(ParametersLabel, parameters);
 
             // Updates the parameters for the algorithm manager.
-            await ActorProxy.Create<IAlgorithmManagerActor>(actor.Id, Interfaces.AlgorithmManager.ServiceNames.AlgorithmManagerActor.ToServiceUri()).ConfigureModelsAsync();
+            await ActorProxy.Create<IAlgorithmManagerActor>(actor.Id, Experiments.AlgorithmManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync();
             return null;
          }
 
@@ -99,9 +100,9 @@ namespace AdaptiveMedicine.Actors.ExperimentManager {
             if (parameters.HasValue) {
                var patientId = anEvent.Input as ActorId;
                var configuringManagers = new Task<bool>[] {
-                  ActorProxy.Create<IModelManagerActor>(patientId, Interfaces.ModelManager.ServiceNames.ModelManagerActor.ToServiceUri()).ConfigureModelsAsync(),
-                  ActorProxy.Create<INetworkManagerActor>(patientId, Interfaces.NetworkManager.ServiceNames.NetworkManagerActor.ToServiceUri()).ConfigureModelsAsync(),
-                  ActorProxy.Create<IPerformanceManagerActor>(patientId, Interfaces.PerformanceManager.ServiceNames.PerformanceManagerActor.ToServiceUri()).ConfigureModelsAsync()
+                  ActorProxy.Create<IModelManagerActor>(patientId, Experiments.ModelManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync(),
+                  ActorProxy.Create<INetworkManagerActor>(patientId, Experiments.NetworkManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync(),
+                  ActorProxy.Create<IPerformanceManagerActor>(patientId, Experiments.PerformanceManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync()
                };
                await Task.WhenAll(configuringManagers);
 

@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using AdaptiveMedicine.Experiments.Actors.Interfaces;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
-using Microsoft.ServiceFabric.Actors.Client;
-using AdaptiveMedicine.Actors.Interfaces.ModelManager;
 
-namespace AdaptiveMedicine.Actors.ModelManager {
+namespace AdaptiveMedicine.Experiments.Actors {
+   [ActorService(Name = Experiments.ModelManagerActor.ServiceName)]
    [StatePersistence(StatePersistence.Persisted)]
    internal class ModelManagerActor: Actor, IModelManagerActor {
 

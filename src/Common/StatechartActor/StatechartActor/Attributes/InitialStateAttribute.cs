@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AdaptiveMedicine.Actors.Base.Statechart.Attributes {
+namespace AdaptiveMedicine.Common.Statechart.Attributes {
    [AttributeUsage(
          AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
    public class InitialStateAttribute: StateAttribute {

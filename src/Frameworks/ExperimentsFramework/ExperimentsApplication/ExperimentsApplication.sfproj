@@ -29,6 +29,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AlgorithmManagerActor\AlgorithmManagerActor.csproj" />
     <ProjectReference Include="..\ExperimentManagerActor\ExperimentManagerActor.csproj" />
+    <ProjectReference Include="..\ExperimentsAPI\ExperimentsAPI.csproj" />
     <ProjectReference Include="..\ModelManagerActor\ModelManagerActor.csproj" />
     <ProjectReference Include="..\NetworkManagerActor\NetworkManagerActor.csproj" />
     <ProjectReference Include="..\PerformanceManagerActor\PerformanceManagerActor.csproj" />
