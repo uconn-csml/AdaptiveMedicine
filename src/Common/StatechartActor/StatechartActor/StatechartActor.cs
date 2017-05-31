@@ -30,8 +30,7 @@ namespace AdaptiveMedicine.Common.Actors {
          : base(actorService, actorId) {
 
          var thisType = this.GetType();
-         StatesMap statesMap;
-         if (!_StatesPerStatechart.TryGetValue(thisType, out statesMap)) {
+         if (!_StatesPerStatechart.TryGetValue(thisType, out StatesMap statesMap)) {
             string initialState = null;
             var statesList = new Dictionary<string, IState>();
 
@@ -63,15 +62,12 @@ namespace AdaptiveMedicine.Common.Actors {
                }
             }
 
-            // TODO: Statecharts without an initial state not allowed.
-
-            _StatesPerStatechart.Add(thisType, new StatesMap(initialState, statesList));
+            _StatesPerStatechart.GetValue(thisType, _ => new StatesMap(initialState, statesList));
          }
       }
 
       protected override async Task OnActivateAsync() {
-         StatesMap statesMap;
-         if (_StatesPerStatechart.TryGetValue(this.GetType(), out statesMap)) {
+         if (_StatesPerStatechart.TryGetValue(this.GetType(), out StatesMap statesMap)) {
             var currentState = await StateManager.TryGetStateAsync<string>(CurrentStateLabel);
             if (!currentState.HasValue || !statesMap.List.ContainsKey(currentState.Value)) {
                await StateManager.SetStateAsync<string>(CurrentStateLabel, statesMap.Initial);
@@ -90,13 +86,10 @@ namespace AdaptiveMedicine.Common.Actors {
       }
 
       public async Task DispatchEventAsync(IEvent anEvent) {
-         StatesMap statesMap;
-         if (_StatesPerStatechart.TryGetValue(this.GetType(), out statesMap)) {
-
+         if (_StatesPerStatechart.TryGetValue(this.GetType(), out StatesMap statesMap)) {
             var pastEvents = await StateManager.TryGetStateAsync<Dictionary<string, DateTime>>(PastEventsLabel);
             if (pastEvents.HasValue) {
-               DateTime lastEventId;
-               if (pastEvents.Value.TryGetValue(anEvent.Type.ToString(), out lastEventId) && anEvent.Id <= lastEventId) {
+               if (pastEvents.Value.TryGetValue(anEvent.Type.ToString(), out DateTime lastEventId) && anEvent.Id <= lastEventId) {
                   return; // We already processed this event or we haven't but we already processed a newer one.
                }
             } else {
@@ -110,22 +103,27 @@ namespace AdaptiveMedicine.Common.Actors {
 
                theEvents.Add(anEvent);
                while (theEvents.Count > 0) {
-                  IState exitState, entryState;
                   var iterationEvent = theEvents[0];
-                  if (statesMap.List.TryGetValue(iterationState, out exitState)) {
+                  if (statesMap.List.TryGetValue(iterationState, out IState exitState)) {
 
                      var transition = exitState.GetActivatedTransition(iterationEvent);
-                     if (transition != null && statesMap.List.TryGetValue(transition.TargetState, out entryState)) {
+                     if (transition != null) {
+
                         if (transition.TargetState != null && transition.TargetState != iterationState) {
                            await exitState.ExitActionAsync(this);
                         }
 
-                        var parameters = new object[] { anEvent, this };
-                        var chainEvents = await (Task<IEnumerable<IEvent>>)transition.Action.Invoke(exitState, parameters);
+                        var chainEvents = await transition.Action(anEvent, this);
 
                         if (transition.TargetState != null && transition.TargetState != iterationState) {
-                           await entryState.EntryActionAsync(this);
-                           iterationState = transition.TargetState;
+                           if (statesMap.List.TryGetValue(transition.TargetState, out IState entryState)) {
+                              await entryState.EntryActionAsync(this);
+                              iterationState = transition.TargetState;
+                           } else {
+                              //throw
+                           }
+
+                           
                         }
 
                         theEvents.RemoveAt(0);
@@ -144,7 +142,6 @@ namespace AdaptiveMedicine.Common.Actors {
                await StateManager.SetStateAsync<string>(CurrentStateLabel, iterationState);
                pastEvents.Value[anEvent.Type.ToString()] = anEvent.Id;
                await StateManager.SetStateAsync<Dictionary<string, DateTime>>(PastEventsLabel, pastEvents.Value);
-
             } else {
                // throw
             }

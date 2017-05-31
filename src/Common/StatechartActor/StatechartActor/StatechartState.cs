@@ -30,7 +30,7 @@ namespace AdaptiveMedicine.Common.Actors {
                      if (methodParameters.Length == 2
                         && methodParameters[0].ParameterType == typeof(IEvent)
                         && methodParameters[1].ParameterType == typeof(Actor)) {
-                        possibleTransitions.Add(new StatechartTransition(transition, member));
+                        possibleTransitions.Add(new StatechartTransition(transition, member, this));
                      }
                   }
                }

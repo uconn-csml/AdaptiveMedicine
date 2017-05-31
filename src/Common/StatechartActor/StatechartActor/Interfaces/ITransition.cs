@@ -1,9 +1,9 @@
-﻿using System.Reflection;
+﻿using static AdaptiveMedicine.Common.Actors.StatechartTransition;
 
 namespace AdaptiveMedicine.Common.Statechart.Interfaces {
    public interface ITransition {
       string EventTrigger { get; }
       string TargetState { get; }
-      MethodInfo Action { get; }
+      TransitionAction Action { get; }
    }
 }
