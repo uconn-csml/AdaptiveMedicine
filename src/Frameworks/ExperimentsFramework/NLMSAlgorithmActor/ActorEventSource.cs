@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace AdaptiveMedicine.Experiments.Actors {
-   [EventSource(Name = "MyCompany-ExperimentsApplication-AlgorithmManagerActor")]
+   [EventSource(Name = "MyCompany-ExperimentsApplication-NLMSAlgorithm")]
    internal sealed class ActorEventSource: EventSource {
       public static readonly ActorEventSource Current = new ActorEventSource();
 

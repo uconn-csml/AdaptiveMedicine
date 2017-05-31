@@ -6,7 +6,7 @@ namespace AdaptiveMedicine.Experiments.Actors {
    internal static class Program {
       private static void Main() {
          try {
-            ActorRuntime.RegisterActorAsync<AlgorithmManagerActor>(
+            ActorRuntime.RegisterActorAsync<NLMSAlgorithmActor>(
                (context, actorType) => new ActorService(context, actorType)).GetAwaiter().GetResult();
             Thread.Sleep(Timeout.Infinite);
          } catch (Exception e) {

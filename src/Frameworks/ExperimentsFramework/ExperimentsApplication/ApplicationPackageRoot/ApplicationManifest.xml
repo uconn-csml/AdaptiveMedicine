@@ -5,9 +5,6 @@
     <Parameter Name="ExperimentManagerActor_PartitionCount" DefaultValue="10" />
     <Parameter Name="ExperimentManagerActor_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ExperimentManagerActor_TargetReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="AlgorithmManagerActor_PartitionCount" DefaultValue="10" />
-    <Parameter Name="AlgorithmManagerActor_MinReplicaSetSize" DefaultValue="3" />
-    <Parameter Name="AlgorithmManagerActor_TargetReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ModelManagerActor_PartitionCount" DefaultValue="10" />
     <Parameter Name="ModelManagerActor_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="ModelManagerActor_TargetReplicaSetSize" DefaultValue="3" />
@@ -17,16 +14,19 @@
     <Parameter Name="PerformanceManagerActor_PartitionCount" DefaultValue="10" />
     <Parameter Name="PerformanceManagerActor_MinReplicaSetSize" DefaultValue="3" />
     <Parameter Name="PerformanceManagerActor_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="NLMSAlgorithmActor_PartitionCount" DefaultValue="10" />
+    <Parameter Name="NLMSAlgorithmActor_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="NLMSAlgorithmActor_TargetReplicaSetSize" DefaultValue="3" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion 
        should match the Name and Version attributes of the ServiceManifest element defined in the 
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="ExperimentsAPIPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <ServiceManifestRef ServiceManifestName="NLMSAlgorithmActorPkg" ServiceManifestVersion="1.0.0" />
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="AlgorithmManagerActorPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="ExperimentsAPIPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="NetworkManagerActorPkg" ServiceManifestVersion="1.0.0" />
@@ -51,11 +51,6 @@
         <UniformInt64Partition PartitionCount="[ExperimentManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
-    <Service Name="AlgorithmManagerActor" GeneratedIdRef="392073a3-814f-41ad-b018-0cce71cdac11|Persisted">
-      <StatefulService ServiceTypeName="AlgorithmManagerActorType" TargetReplicaSetSize="[AlgorithmManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[AlgorithmManagerActor_MinReplicaSetSize]">
-        <UniformInt64Partition PartitionCount="[AlgorithmManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
-      </StatefulService>
-    </Service>
     <Service Name="ModelManagerActor" GeneratedIdRef="6707922b-1b41-4b6c-a1d3-792002a3b10e|Persisted">
       <StatefulService ServiceTypeName="ModelManagerActorType" TargetReplicaSetSize="[ModelManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[ModelManagerActor_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[ModelManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
@@ -69,6 +64,11 @@
     <Service Name="PerformanceManagerActor" GeneratedIdRef="9a3802b8-2115-479c-8b48-2b13edd32fb0|Persisted">
       <StatefulService ServiceTypeName="PerformanceManagerActorType" TargetReplicaSetSize="[PerformanceManagerActor_TargetReplicaSetSize]" MinReplicaSetSize="[PerformanceManagerActor_MinReplicaSetSize]">
         <UniformInt64Partition PartitionCount="[PerformanceManagerActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+      </StatefulService>
+    </Service>
+    <Service Name="NLMSAlgorithmActor" GeneratedIdRef="bb2f59a7-0beb-4d08-989b-42ee826e061a|Persisted">
+      <StatefulService ServiceTypeName="NLMSAlgorithmActorType" TargetReplicaSetSize="[NLMSAlgorithmActor_TargetReplicaSetSize]" MinReplicaSetSize="[NLMSAlgorithmActor_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[NLMSAlgorithmActor_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
       </StatefulService>
     </Service>
     <!-- The section below creates instances of service types, when an instance of this 

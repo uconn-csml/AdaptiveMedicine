@@ -6,15 +6,21 @@ using AdaptiveMedicine.Common.Statechart.Attributes;
 using AdaptiveMedicine.Common.Statechart.Interfaces;
 using AdaptiveMedicine.Common.Utilities;
 using AdaptiveMedicine.Experiments.Actors.Interfaces;
+using AdaptiveMedicine.Experiments.Actors.ServiceNames;
+using AdaptiveMedicine.Experiments.ExperimentManagerActor;
 using Microsoft.ServiceFabric.Actors;
 using Microsoft.ServiceFabric.Actors.Client;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace AdaptiveMedicine.Experiments.Actors {
-   [ActorService(Name = Experiments.ExperimentManagerActor.ServiceName)]
+   using ConfigOptions = Experiments.ExperimentManagerActor.ConfigurationOptions;
+   using ModelsConfigOptions = Experiments.ModelManagerActor.ConfigurationOptions;
+
+   [ActorService(Name = ExperimentManagerService.Name)]
    [StatePersistence(StatePersistence.Persisted)]
    internal class ExperimentManagerActor: StatechartActor, IExperimentManagerActor {
-      public const string ParametersLabel = "Experiment.Parameters";
+      public const string ConfigurationLabel = "Experiment.Configuration";
+      public const string PatientsPrefix = "Experiment.Patients:";
 
       public ExperimentManagerActor(ActorService actorService, ActorId actorId)
           : base(actorService, actorId) {
@@ -22,21 +28,21 @@ namespace AdaptiveMedicine.Experiments.Actors {
 
       protected override Task OnActivateAsync() {
          ActorEventSource.Current.ActorMessage(this, "Actor activated.");
-         return Task.FromResult(true);
+         return base.OnActivateAsync();
       }
 
-      async Task<bool> IExperimentManagerActor.Create(DateTime timeStamp, object parameters) {
-         await DispatchEventAsync(new StatechartEvent(Events.Initialize, timeStamp, parameters));
+      public async Task<bool> ConfigurateAsync(DateTime timeStamp, ConfigOptions config) {
+         await DispatchEventAsync(new StatechartEvent(Events.Initialize, timeStamp, config));
          return true;
       }
 
-      async Task<bool> IExperimentManagerActor.AddPatient(DateTime timeStamp, object parameters) {
-         await DispatchEventAsync(new StatechartEvent(Events.AddPatient, timeStamp, parameters));
+      public async Task<bool> AddParticipantAsync(DateTime timeStamp, ParticipantDetails participant) {
+         await DispatchEventAsync(new StatechartEvent(Events.AddParticipant, timeStamp, participant));
          return true;
       }
 
       /* Statechart Events & States */
-      enum Events { Initialize, Delete, AddPatient, Error }
+      enum Events { Initialize, Delete, AddParticipant, Error }
       enum States { Uninitialized, Initialized, Illegal }
 
 
@@ -50,17 +56,20 @@ namespace AdaptiveMedicine.Experiments.Actors {
 
          [Transition(Events.Initialize, States.Initialized)]
          public async Task<IEnumerable<IEvent>> SetConfigurationAsync(IEvent anEvent, Actor actor) {
-            // Save all the parameters related to the experiment so that they can be used when adding a new patient.
-            var parameters = anEvent.Input as object;
-            await actor.StateManager.SetStateAsync<object>(ParametersLabel, parameters);
+            var forwardedEvents = new List<IEvent>();
 
-            // Set up the parameters for the algorithm manager.
-            await ActorProxy.Create<IAlgorithmManagerActor>(actor.Id, Experiments.AlgorithmManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync();
-            return null;
+            var config = anEvent.Input as ConfigOptions;
+            if (config != null) {
+               await actor.StateManager.SetStateAsync<ConfigOptions>(ConfigurationLabel, config);
+            } else {
+               forwardedEvents.Add(new StatechartEvent(Events.Error, anEvent.Id));
+            }
+            
+            return forwardedEvents;
          }
 
          [Transition(Events.Delete)]
-         [Transition(Events.AddPatient, States.Illegal)]
+         [Transition(Events.AddParticipant, States.Illegal)]
          [Transition(Events.Error, States.Illegal)]
          public Task<IEnumerable<IEvent>> DoNothingAsync(IEvent anEvent, Actor actor) {
             return Task.FromResult<IEnumerable<IEvent>>(null);
@@ -75,36 +84,54 @@ namespace AdaptiveMedicine.Experiments.Actors {
          private Initialized() : base() { }
          #endregion
 
-         [Transition(Events.Initialize)]
-         public async Task<IEnumerable<IEvent>> UpdateConfigurationAsync(IEvent anEvent, Actor actor) {
-            // Update the parameters related to the experiment.
-            var parameters = anEvent.Input as object;
-            await actor.StateManager.SetStateAsync<object>(ParametersLabel, parameters);
-
-            // Updates the parameters for the algorithm manager.
-            await ActorProxy.Create<IAlgorithmManagerActor>(actor.Id, Experiments.AlgorithmManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync();
-            return null;
-         }
-
+         [Transition(Events.Initialize, States.Illegal)]
          [Transition(Events.Delete, States.Uninitialized)]
          [Transition(Events.Error, States.Illegal)]
          public Task<IEnumerable<IEvent>> DoNothingAsync(IEvent anEvent, Actor actor) {
             return Task.FromResult<IEnumerable<IEvent>>(null);
          }
 
-         [Transition(Events.AddPatient)]
-         public async Task<IEnumerable<IEvent>> AddPatientAsync(IEvent anEvent, Actor actor) {
-            var parameters = await actor.StateManager.TryGetStateAsync<object>(ParametersLabel);
+         [Transition(Events.AddParticipant)]
+         public async Task<IEnumerable<IEvent>> AddParticipantAsync(IEvent anEvent, Actor actor) {
             var forwardedEvents = new List<IEvent>();
+            var config = await actor.StateManager.TryGetStateAsync<ConfigOptions>(ConfigurationLabel);
 
-            if (parameters.HasValue) {
-               var patientId = anEvent.Input as ActorId;
-               var configuringManagers = new Task<bool>[] {
-                  ActorProxy.Create<IModelManagerActor>(patientId, Experiments.ModelManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync(),
-                  ActorProxy.Create<INetworkManagerActor>(patientId, Experiments.NetworkManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync(),
-                  ActorProxy.Create<IPerformanceManagerActor>(patientId, Experiments.PerformanceManagerActor.ServiceName.ToServiceUri()).ConfigureModelsAsync()
-               };
-               await Task.WhenAll(configuringManagers);
+            if (config.HasValue) {
+               var participant = anEvent.Input as ParticipantDetails;
+
+               if (participant != null) {
+                  var participationKey = PatientsPrefix + participant.Id;
+                  var participationDetails = await actor.StateManager.TryGetStateAsync<bool>(participationKey);
+
+                  if (!participationDetails.HasValue) {
+                     var modelsInfo = new List<ModelsConfigOptions.ModelInfo>();
+                     foreach (var modelInfo in config.Value.ModelsInfo) {
+                        modelsInfo.Add(new ModelsConfigOptions.ModelInfo {
+                           Order = modelInfo.Order,
+                           Algorithm = modelInfo.Algorithm
+                        });
+                     }
+                     var modelsConfig = new ModelsConfigOptions { ModelsInfo = modelsInfo };
+
+                     var participantActorId = new ActorId($"{actor.Id}:{participant.Id}");
+                     var configuringManagers = new Task<bool>[] {
+                        ActorProxy.Create<IModelManagerActor>(participantActorId, ModelManagerService.Name.ToServiceUri())
+                           .ConfigurateAsync(anEvent.Id, modelsConfig),
+                        ActorProxy.Create<INetworkManagerActor>(participantActorId, NetworkManagerService.Name.ToServiceUri())
+                           .ConfigureModelsAsync(),
+                        ActorProxy.Create<IPerformanceManagerActor>(participantActorId, PerformanceManagerService.Name.ToServiceUri())
+                           .ConfigureModelsAsync()
+                     };
+
+                     await Task.WhenAll(configuringManagers);
+                     await actor.StateManager.SetStateAsync<bool>(participationKey, true);
+
+                  } else {
+                     forwardedEvents.Add(new StatechartEvent(Events.Error, anEvent.Id));
+                  }
+               } else {
+                  forwardedEvents.Add(new StatechartEvent(Events.Error, anEvent.Id));
+               }
 
             } else {
                forwardedEvents.Add(new StatechartEvent(Events.Error, anEvent.Id));
@@ -123,7 +150,6 @@ namespace AdaptiveMedicine.Experiments.Actors {
          #endregion
 
          public override Task<bool> EntryActionAsync(Actor actor) {
-            ActorEventSource.Current.ActorMessage(actor, "Something wrong happened to this experiment.");
             return base.EntryActionAsync(actor);
          }
 
@@ -133,7 +159,7 @@ namespace AdaptiveMedicine.Experiments.Actors {
          }
 
          [Transition(Events.Delete, States.Uninitialized)]
-         [Transition(Events.AddPatient)]
+         [Transition(Events.AddParticipant)]
          [Transition(Events.Error)]
          public Task<IEnumerable<IEvent>> DoNothingAsync(IEvent anEvent, Actor actor) {
             return Task.FromResult<IEnumerable<IEvent>>(null);

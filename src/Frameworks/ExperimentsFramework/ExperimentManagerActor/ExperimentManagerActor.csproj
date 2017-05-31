@@ -110,10 +110,6 @@
       <Project>{c3be9c05-70dc-4379-9a3c-17c4c2f85569}</Project>
       <Name>Utilities</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Interfaces\IAlgorithmManagerActor\IAlgorithmManagerActor.csproj">
-      <Project>{ec5039a6-c920-4d11-8c60-95154305ad75}</Project>
-      <Name>IAlgorithmManagerActor</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Interfaces\IExperimentManagerActor\IExperimentManagerActor.csproj">
       <Project>{86ce81c0-7d72-4332-ad35-94194c68aa98}</Project>
       <Name>IExperimentManagerActor</Name>

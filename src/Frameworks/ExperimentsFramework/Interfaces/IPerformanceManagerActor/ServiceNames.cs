@@ -1,5 +1,5 @@
-﻿namespace AdaptiveMedicine.Experiments {
-   public static class PerformanceManagerActor {
-      public const string ServiceName = "PerformanceManagerActor";
+﻿namespace AdaptiveMedicine.Experiments.Actors.ServiceNames {
+   public static class PerformanceManagerService {
+      public const string Name = "PerformanceManagerActor";
    }
 }

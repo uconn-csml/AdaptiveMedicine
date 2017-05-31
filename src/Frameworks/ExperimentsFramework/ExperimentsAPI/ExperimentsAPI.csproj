@@ -27,6 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Common\Utilities\Utilities\Utilities.csproj" />
+    <ProjectReference Include="..\Interfaces\IAlgorithmActor\IAlgorithmActor.csproj" />
     <ProjectReference Include="..\Interfaces\IExperimentManagerActor\IExperimentManagerActor.csproj" />
   </ItemGroup>
 

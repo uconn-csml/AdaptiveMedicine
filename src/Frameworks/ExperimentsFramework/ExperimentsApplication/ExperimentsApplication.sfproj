@@ -3,7 +3,7 @@
   <Import Project="..\packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.6.0\build\Microsoft.VisualStudio.Azure.Fabric.Application.props" Condition="Exists('..\packages\Microsoft.VisualStudio.Azure.Fabric.MSBuild.1.6.0\build\Microsoft.VisualStudio.Azure.Fabric.Application.props')" />
   <PropertyGroup Label="Globals">
     <ProjectGuid>d08ca0d0-07a0-46e3-a30d-bfd8d35a37a0</ProjectGuid>
-    <ProjectVersion>1.5</ProjectVersion>
+    <ProjectVersion>1.6</ProjectVersion>
     <MinToolsVersion>1.5</MinToolsVersion>
   </PropertyGroup>
   <ItemGroup Label="ProjectConfigurations">
@@ -27,11 +27,11 @@
     <None Include="Scripts\Deploy-FabricApplication.ps1" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AlgorithmManagerActor\AlgorithmManagerActor.csproj" />
     <ProjectReference Include="..\ExperimentManagerActor\ExperimentManagerActor.csproj" />
     <ProjectReference Include="..\ExperimentsAPI\ExperimentsAPI.csproj" />
     <ProjectReference Include="..\ModelManagerActor\ModelManagerActor.csproj" />
     <ProjectReference Include="..\NetworkManagerActor\NetworkManagerActor.csproj" />
+    <ProjectReference Include="..\NLMSAlgorithmActor\NLMSAlgorithmActor.csproj" />
     <ProjectReference Include="..\PerformanceManagerActor\PerformanceManagerActor.csproj" />
   </ItemGroup>
   <ItemGroup>
