@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.6
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatechartActor", "StatechartActor\StatechartActor.csproj", "{764B4E36-E7E0-45E2-A836-53D7C36C7526}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{764B4E36-E7E0-45E2-A836-53D7C36C7526}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{764B4E36-E7E0-45E2-A836-53D7C36C7526}.Debug|Any CPU.Build.0 = Debug|x64
+		{764B4E36-E7E0-45E2-A836-53D7C36C7526}.Release|Any CPU.ActiveCfg = Release|x64
+		{764B4E36-E7E0-45E2-A836-53D7C36C7526}.Release|Any CPU.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
